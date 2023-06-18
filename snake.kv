@@ -1,0 +1,98 @@
+#:kivy 2.0.0
+#:import utils kivy.utils
+#:import random random
+#:set board_color utils.get_color_from_hex("#191919")
+#:set background_color (0, 0, 0)
+#:set border_color utils.get_color_from_hex("#797979")
+#:set colors ["#00aeef", "#ec008c", "#fff200"]
+
+
+<SnakeHead>:
+    size: 10, 10
+    canvas:
+        Color:
+            rgb: utils.get_color_from_hex(colors[0])
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<SnakeBody>:
+    size: 10, 10
+    canvas:
+        Color:
+            rgb: utils.get_color_from_hex(colors[1])
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Apple>:
+    size: 10, 10
+    canvas:
+        Color:
+            rgb: 1, 0, 0
+        Ellipse:
+            pos: self.pos
+            size: self.size
+
+<SnakeGame>:
+    id: game
+
+    # set 2 rows (1 for the score, 1 for the game)
+    GridLayout:
+        id: grid
+        cols: 1
+        rows: 2
+        size: root.width, root.height
+
+        Label:
+            size: root.width, 100
+            size_hint: 1, None
+
+            canvas.before:
+                Color:
+                    rgb: board_color
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+                Color:
+                    rgb: border_color
+                Line:
+                    rectangle: self.x, self.y, self.width, self.height
+                    width: 2
+
+
+            id: score
+            value: 0
+
+            text: "[color=00b0f5]SCORE: [/color]" + f'{self.value:>05}'
+            markup: True
+
+            font_name: "Arcade"
+            font_size: 50
+
+            color: 1, 1, 1, 1
+            bold: True
+
+            halign: "center"
+            valign: "middle"
+
+        GamePanel:
+            canvas.before:
+                Color:
+                    rgb: background_color
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+                Color:
+                    rgb: border_color
+                Line:
+                    rectangle: self.x, self.y, self.width, self.height
+                    width: 2
+
+            id: panel
+            size: root.width, root.height - 50
+
+
+
